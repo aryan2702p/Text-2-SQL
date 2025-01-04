@@ -1,0 +1,5 @@
+node_modules/
+.env
+my_duckdb.db
+uploads/
+my_duckdb.db.wal
