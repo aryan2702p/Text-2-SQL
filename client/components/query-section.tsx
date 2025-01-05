@@ -14,21 +14,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { executeQuery } from "@/app/api/api";
-// import { LoaderCircleIcon } from 'lucide-react'
+
 import { SpinnerCircular } from "spinners-react";
 import toast, { Toaster } from "react-hot-toast";
 import { useQueryContext } from "@/context/QueryContext";
 
-interface QuerySectionProps {}
 
-const schemaData = [
-  { name: "name", type: "VARCHAR(255)", nullable: "NO" },
-  { name: "id", type: "INT", nullable: "NO" },
-  { name: "state", type: "CHAR(2)", nullable: "YES" },
-  { name: "expenditure", type: "DECIMAL(10,2)", nullable: "YES" },
-  { name: "company", type: "VARCHAR(100)", nullable: "YES" },
-  { name: "city", type: "VARCHAR(100)", nullable: "YES" },
-];
 
 export function QuerySection() {
   const { tableName, tableData, setSqlQuery, setQueryResults, sampleQueries } =

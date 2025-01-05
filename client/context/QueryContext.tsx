@@ -23,14 +23,14 @@ interface QueryContextProps {
   resetAllStates: () => void; // Add this line
 }
 
-// Add type for Provider props
+
 interface QueryProviderProps {
   children: React.ReactNode;
 }
 
 const QueryContext = createContext<QueryContextProps | undefined>(undefined);
 
-// Update the type definition here
+
 export const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
   const [attributes, setAttributes] = useState<string[]>([]);
   const [tableName, setTableName] = useState<string>("");

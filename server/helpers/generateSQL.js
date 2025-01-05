@@ -8,7 +8,7 @@ export async function generateSQL(prompt, tableName, attributes) {
     try {
         const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-        // Enhance the prompt with table attributes
+      
         const enhancedPrompt = `
             Convert this text to a SQL query for the table "${tableName}".
             The table has the following attributes: ${attributes}.
@@ -17,11 +17,11 @@ export async function generateSQL(prompt, tableName, attributes) {
 
         const result = await model.generateContent(enhancedPrompt);
 
-        // Clean up any backticks or extra formatting
+        
         return result.response.text().replace(/```[^\n]*\n|\n```/g, '').trim();
     } catch (error) {
-        console.error("Error generating SQL query:", error); // Log error details for debugging
-        throw error; // Re-throw the error to let the caller handle it
+        console.error("Error generating SQL query:", error); 
+        throw error; 
     }
 }
 export async function generateNaturalLanguageQueries(tableName, attributes) {
@@ -38,12 +38,12 @@ export async function generateNaturalLanguageQueries(tableName, attributes) {
 
         const result = await model.generateContent(prompt);
 
-        // Extract and clean up the list of queries from the response
+       
         const queries = result.response.text()
             .split('\n')
             .map(query => query.trim().replace(/^-/, '').trim())
             .filter(query => query.length > 0)
-            .slice(0, 5); // Limit to 5 queries
+            .slice(0, 5); 
 
         return queries;
     } catch (error) {

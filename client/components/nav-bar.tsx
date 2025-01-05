@@ -5,7 +5,7 @@ export function NavBar() {
   const { setIsFileUploaded, setTableName } = useQueryContext();
 
   const handleReset = () => {
-    // Reset all necessary states
+  
     setIsFileUploaded(false);
     setTableName("");
   };

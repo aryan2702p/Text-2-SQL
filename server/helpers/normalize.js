@@ -2,8 +2,7 @@ import db from '../db_config.js';
 
 export async function normalizeAndCreateTable(filePath, tableName, fileType) {
     try {
-      // Step 1: Create a temporary table based on file type
-      // const tempTableName = `${tableName}_temp`;
+     
       if (fileType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
         //console.log("excel file in normalizing....");
         await db.run(

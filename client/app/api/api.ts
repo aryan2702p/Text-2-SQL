@@ -20,7 +20,7 @@ export const uploadFile = async (file: File) => {
     return response;
   } catch (error) {
     console.error(error);
-    throw error; // Re-throw the error so it can be handled by the calling function
+    throw error; 
   }
 };
 
@@ -30,6 +30,6 @@ export const executeQuery = async (query: string, tableName: string) => {
     return response;
   } catch (error) {
     console.error(error);
-    throw error; // Re-throw the error so it can be handled by the calling function
+    throw error; 
   }
 };

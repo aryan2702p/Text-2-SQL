@@ -46,38 +46,7 @@ export function FileUpload() {
     },
   });
 
-  // const handleUpload = async () => {
-  //   if (files.length === 0) return
-
-  //   const file = files[0];
-
-  //   setLoading(true);
-
-  //   const response = await uploadFile(file);
-
-  //   if (response) {
-  //     const { data } = response;
-
-  //     if (data.attributes) {
-  //       setAttributes(data.attributes);
-  //     }
-
-  //     if (data.tableName) {
-  //       setTableName(data.tableName);
-  //     }
-
-  //     if (data.descObj) {
-  //       setTableData(data.descObj);
-  //     }
-  //     if(data.naturalLanguageQueries) {
-  //       setSampleQueries(data.naturalLanguageQueries);
-  //     }
-  //   }
-
-  //   setLoading(false);
-
-  //   router.push(`/query?tableName=${encodeURIComponent(tableName)}&attributes=${encodeURIComponent(JSON.stringify(attributes))}&tableData=${encodeURIComponent(JSON.stringify(tableData))}&sampleQueries=${encodeURIComponent(JSON.stringify(sampleQueries))}`);
-  // }
+ 
 
   const handleUpload = async () => {
     if (files.length === 0) {

@@ -3,8 +3,8 @@ import "./globals.css";
 import { QueryProvider } from "@/context/QueryContext";
 
 export const metadata: Metadata = {
-  title: "v0 App",
-  description: "Created with v0",
+  title: "Text2SQL App",
+ 
 };
 
 export default function RootLayout({

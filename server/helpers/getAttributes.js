@@ -8,11 +8,7 @@ export async function getAttributes(tableName) {
 
         let attributesString = colsNames.join(",");
         console.log("attributesSTring", attributesString);
-        // const tableExists = await db.run(`SELECT name FROM sqlite_master WHERE type='table' AND name='attributes_table'`);
-        // if (tableExists.length === 0) {
-        //     console.log("Creating attributes_table");
-        //     await db.run(`CREATE TABLE attributes_table (table_name TEXT, attributes TEXT)`);
-        // }
+       
 
         console.log("Inserting attributes into attributes_table");
 

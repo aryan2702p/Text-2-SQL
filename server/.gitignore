@@ -3,3 +3,4 @@ node_modules/
 my_duckdb.db
 uploads/
 my_duckdb.db.wal
+test.js
