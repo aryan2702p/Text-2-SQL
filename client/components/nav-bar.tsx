@@ -1,14 +1,29 @@
-import Link from 'next/link'
+"use client";
+import { useQueryContext } from "@/context/QueryContext";
 
-export function NavBar({handleClick}: {handleClick: () => void}) {
+export function NavBar() {
+  const { setIsFileUploaded, setTableName } = useQueryContext();
+
+  const handleReset = () => {
+    // Reset all necessary states
+    setIsFileUploaded(false);
+    setTableName("");
+  };
 
   return (
-    <nav className="flex items-center justify-=between p-6 pb-0">
-      <Link href="/" className="text-[#8BA7B4] text-2xl font-mono">
+    <nav className="flex items-center justify-between p-6 pb-0">
+      <button
+        onClick={handleReset}
+        className="text-[#8BA7B4] text-2xl font-mono hover:text-white"
+      >
         tex2SQL
-      </Link>
-      <button className="ml-auto text-[#8BA7B4] font-mono hover:text-white" onClick={handleClick}>Upload</button>
+      </button>
+      <button
+        className="ml-auto text-[#8BA7B4] font-mono hover:text-white"
+        onClick={handleReset}
+      >
+        Upload
+      </button>
     </nav>
-  )
+  );
 }
-

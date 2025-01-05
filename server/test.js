@@ -1,17 +1,17 @@
 import db from './db_config.js';
 
-
+const tableName = 'FinancialSample';
 //const result = await db.run("SELECT name FROM sqlite_master WHERE type='table';");
-const result = await db.run("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'OrdersWithNulls_temp';");
+await db.run(`COPY ${tableName} TO 'output.csv' (HEADER, DELIMITER ',');`);
 
 
 //const result = await db.run(`SELECT * FROM states_by_country WHERE State Name = "Balkn" LIMIT 5;`);
-const row = await result.getRows();
-const colsNames = await result.columnNames();
-//console.log(colsNames);
+//  const row = await result.getRows();
+//  const colsNames = await result.columnNames();
+//  console.log(colsNames);
 
 
-console.log(row);
+//  console.log(row);
 
 // import db from '../db_config.js';
 
