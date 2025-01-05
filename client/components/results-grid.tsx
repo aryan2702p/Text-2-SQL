@@ -44,7 +44,7 @@ export function ResultsGrid({ sqlQuery, queryResults }: { sqlQuery: string, quer
                       if(typeof cell === 'object') {
                         cell = JSON.stringify(cell);
                       }
-                      return <TableCell key={j} className="text-[#8BA7B4] font-mono">{cell}</TableCell>
+                      return <TableCell key={j} className="text-[#e4e6e7] font-mono">{cell}</TableCell>
                     })}
                     </TableRow>
                   ))}
@@ -81,7 +81,7 @@ export function ResultsGrid({ sqlQuery, queryResults }: { sqlQuery: string, quer
                       if(typeof cell === 'object') {
                         cell = JSON.stringify(cell);
                       }
-                      return <TableCell key={j} className="text-[#8BA7B4] font-mono">{cell}</TableCell>
+                      return <TableCell key={j} className="text-[#eceeef] font-mono">{cell}</TableCell>
                     })}
                   </TableRow>
                 ))}

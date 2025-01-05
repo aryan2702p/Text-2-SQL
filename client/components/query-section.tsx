@@ -124,7 +124,7 @@ export function QuerySection({ tableName, tableData, setSqlQuery, setQueryResult
               {tableData?.row && tableData?.row.map((row, i) => (
                 <TableRow key={i} className="border-b border-[#8BA7B4]/20">
                   {row.map((cell, j) => (
-                    <TableCell key={j} className="text-[#8BA7B4] font-mono">{cell ? cell : "NULL"}</TableCell>
+                    <TableCell key={j} className="text-[#dfe2e3] font-mono">{cell ? cell : "NULL"}</TableCell>
                   ))}
                 </TableRow>
               ))}

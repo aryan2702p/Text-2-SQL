@@ -28,7 +28,7 @@ export default function QueryPage() {
   return (
     <div className="min-h-screen bg-[#051421] h-[75%] mb-[50px]">
       {!tableName && (
-      <div className="absolute top-0 left-0 w-full h-full z-[999] bg-[#051421] bg-opacity-80">
+      <div className="absolute top-0 left-0 w-full h-full z-[999] bg-[#051421] bg-opacity-100">
         <FileUpload
         attributes={attributes}
         setAttributes={setAttributes}

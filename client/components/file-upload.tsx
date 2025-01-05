@@ -49,38 +49,75 @@ export function FileUpload({
     },
   })
 
+  // const handleUpload = async () => {
+  //   if (files.length === 0) return
+
+  //   const file = files[0];
+
+  //   setLoading(true);
+
+  //   const response = await uploadFile(file);
+
+  //   if (response) {
+  //     const { data } = response;
+
+  //     if (data.attributes) {
+  //       setAttributes(data.attributes);
+  //     }
+
+  //     if (data.tableName) {
+  //       setTableName(data.tableName);
+  //     }
+
+  //     if (data.descObj) {
+  //       setTableData(data.descObj);
+  //     }
+  //     if(data.naturalLanguageQueries) {
+  //       setSampleQueries(data.naturalLanguageQueries);
+  //     }
+  //   }
+
+  //   setLoading(false);
+
+  //   router.push(`/query?tableName=${encodeURIComponent(tableName)}&attributes=${encodeURIComponent(JSON.stringify(attributes))}&tableData=${encodeURIComponent(JSON.stringify(tableData))}&sampleQueries=${encodeURIComponent(JSON.stringify(sampleQueries))}`);
+  // }
+
   const handleUpload = async () => {
-    if (files.length === 0) return
-
+    if (files.length === 0) return;
+  
     const file = files[0];
-
+  
     setLoading(true);
-
-    const response = await uploadFile(file);
-
-    if (response) {
-      const { data } = response;
-
-      if (data.attributes) {
-        setAttributes(data.attributes);
+  
+    try {
+      const response = await uploadFile(file);
+  
+      if (response) {
+        const { data } = response;
+  
+        // Use local variables to hold new values instead of relying directly on state
+        const updatedAttributes = data.attributes || [];
+        const updatedTableName = data.tableName || '';
+        const updatedTableData = data.descObj || { cols: [], row: [] };
+        const updatedSampleQueries = data.naturalLanguageQueries || [];
+  
+        // Update the states
+        setAttributes(updatedAttributes);
+        setTableName(updatedTableName);
+        setTableData(updatedTableData);
+        setSampleQueries(updatedSampleQueries);
+  
+        // Ensure navigation waits until states are updated
+        router.push(`/query?tableName=${encodeURIComponent(updatedTableName)}&attributes=${encodeURIComponent(JSON.stringify(updatedAttributes))}&tableData=${encodeURIComponent(JSON.stringify(updatedTableData))}&sampleQueries=${encodeURIComponent(JSON.stringify(updatedSampleQueries))}`);
       }
-
-      if (data.tableName) {
-        setTableName(data.tableName);
-      }
-
-      if (data.descObj) {
-        setTableData(data.descObj);
-      }
-      if(data.naturalLanguageQueries) {
-        setSampleQueries(data.naturalLanguageQueries);
-      }
+    } catch (error) {
+      console.error('File upload failed', error);
+      alert('File upload failed. Please try again.');
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
-
-    router.push(`/query?tableName=${encodeURIComponent(tableName)}&attributes=${encodeURIComponent(JSON.stringify(attributes))}&tableData=${encodeURIComponent(JSON.stringify(tableData))}&sampleQueries=${encodeURIComponent(JSON.stringify(sampleQueries))}`);
-  }
+  };
+  
 
   return (
     <div className='relative w-full h-full'>
