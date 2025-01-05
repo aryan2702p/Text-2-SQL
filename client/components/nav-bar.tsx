@@ -1,7 +1,13 @@
 "use client";
 import { useQueryContext } from "@/context/QueryContext";
 
-export function NavBar() {
+interface NavBarProps {
+
+  handleClick: () => void;
+
+}
+
+export const NavBar: React.FC<NavBarProps> = ({ handleClick }) => {
   const { setIsFileUploaded, setTableName } = useQueryContext();
 
   const handleReset = () => {
