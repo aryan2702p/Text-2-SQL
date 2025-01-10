@@ -12,11 +12,14 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
 import { CrossIcon, DownloadIcon } from "lucide-react";
-import { useQueryContext } from "@/context/QueryContext";
+
+import { useQueryStore } from "@/store/QueryStore";
 
 export function ResultsGrid() {
   const [showFullTable, setShowFullTable] = useState(false);
-  const { sqlQuery, queryResults } = useQueryContext();
+  const { sqlQuery, queryResults } = useQueryStore();
+
+
   const { rows, colsNames } = queryResults || { rows: [], colsNames: [] };
 
   const downloadCSV = () => {
@@ -48,8 +51,8 @@ export function ResultsGrid() {
     document.body.removeChild(link);
   };
 
-  console.log("rows", rows);
-  console.log("colsNames", colsNames);
+  // console.log("rows", rows);
+  // console.log("colsNames", colsNames);
 
   return (
     <div className="p-0 h-[100%] max-h-full overflow-hidden pb-2 rounded-lg">

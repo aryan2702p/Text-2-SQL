@@ -1,20 +1,35 @@
 "use client";
 import { useQueryContext } from "@/context/QueryContext";
+import { useRouter } from "next/navigation";
+import { logout } from "@/app/api/api";
+import toast from "react-hot-toast";
 
 interface NavBarProps {
-
-  handleClick: () => void;
-
 }
 
-export const NavBar: React.FC<NavBarProps> = ({ handleClick }) => {
+export const NavBar: React.FC<NavBarProps> = () => {
+  const router = useRouter();
   const { setIsFileUploaded, setTableName } = useQueryContext();
 
   const handleReset = () => {
   
     setIsFileUploaded(false);
     setTableName("");
+
+    router.push("/upload");
   };
+
+  const handleLogout = async() => {
+
+    const response = await logout();
+
+    if(response.status === 200){
+      router.push("/login");
+    }
+    else{
+      toast.error("Logout failed", { icon: "❌" });
+    }
+  }
 
   return (
     <nav className="flex items-center justify-between p-6 pb-0">
@@ -24,12 +39,22 @@ export const NavBar: React.FC<NavBarProps> = ({ handleClick }) => {
       >
         tex2SQL
       </button>
+
+      <div className="flex items-center gap-6">
       <button
         className="ml-auto text-[#8BA7B4] font-mono hover:text-white"
         onClick={handleReset}
       >
         Upload
       </button>
+      <button
+        className="ml-auto text-[#8BA7B4] font-mono hover:text-white"
+        onClick={handleLogout}
+      >
+        Logout
+      </button>
+      </div>
+     
     </nav>
   );
 }

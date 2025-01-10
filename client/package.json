@@ -10,13 +10,14 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
-    
     "@radix-ui/react-alert-dialog": "^1.1.4",
     "@radix-ui/react-context-menu": "^2.2.4",
     "@radix-ui/react-hover-card": "^1.1.4",
+    "@radix-ui/react-label": "^2.1.1",
     "@radix-ui/react-popover": "^1.1.4",
     "@radix-ui/react-scroll-area": "^1.2.2",
     "@radix-ui/react-select": "^2.1.4",
+    "@radix-ui/react-separator": "^1.1.1",
     "@radix-ui/react-toast": "^1.2.4",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.9",
@@ -42,8 +43,8 @@
     "spinners-react": "^1.0.10",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
-    "vaul": "^0.9.6"
-   
+    "vaul": "^0.9.6",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@types/node": "^22",

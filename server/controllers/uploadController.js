@@ -29,9 +29,13 @@ export const uploadFile = async (req, res) => {
       await db.run(
         `CREATE TABLE ${tableName} AS SELECT * FROM read_csv('${filePath}', header=true, normalize_names= true);`
       );
+
+      
     } else {
       await normalizeAndCreateTable(filePath, tableName, fileType);
     }
+
+    await db.run(`INSERT INTO user_tables VALUES ('${tableName}','${req.user}');`);
 
     const describe = await db.run(`DESCRIBE TABLE ${tableName};`);
     const row = await describe.getRows();
@@ -62,3 +66,8 @@ export const uploadFile = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+
+
+

@@ -1,11 +1,12 @@
 import express from 'express';
 
-import { getAttributes } from '../controllers/attributeTable.js';
+import { getTableData } from '../controllers/attributeTable.js';
 
 const router = express.Router();
 
 
 // Route to handle file upload
-router.post('/',  getAttributes);
+// router.post('/',  getAttributes);
+router.post('/table',  getTableData);
 
 export default router;

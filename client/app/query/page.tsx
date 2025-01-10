@@ -1,52 +1,33 @@
+
 "use client";
 
-import { FileUpload } from "@/components/file-upload";
-import { NavBar } from "@/components/nav-bar";
 import { QuerySection } from "@/components/query-section";
 import { ResultsGrid } from "@/components/results-grid";
-import { useQueryContext } from "@/context/QueryContext";
-import { useState } from "react";
-// import { set } from 'react-hook-form'
+import { NavBar } from "@/components/nav-bar";
 
-export default function QueryPage() {
-  // const [attributes, setAttributes] = useState<string[]>([]);
-  // const [sampleQueries, setSampleQueries] = useState<string[]>([]);
-  // const [tableName, setTableName] = useState<string>("");
-  // const [tableData, setTableData] = useState<{
-  //   cols: string[];
-  //   row: string[][];
-  // }>();
 
-  const {
-    attributes,
-    tableName,
-    tableData,
-    sampleQueries,
-    sqlQuery,
-    setSqlQuery,
-    queryResults,
-    setQueryResults,
-  } = useQueryContext();
+export default function Home() {
 
-  // const [sqlQuery, setSqlQuery] = useState<string>("");
-  // const [queryResults, setQueryResults] = useState<{
-  //   rows: any[][];
-  //   colsNames: string[];
-  // }>();
-
-  // const handleClick = () => {
-  //   setTableName("");
-  //   setTableData({ cols: [], row: [] });
-  //   setSqlQuery("");
-  //   setQueryResults({ rows: [], colsNames: [] });
-  //   setAttributes([]);
-  //   setSampleQueries([]);
-  // };
-  // bg-[#051421]
-  return (
-    <main className="container mx-auto p-4">
-      <FileUpload />
-      <QuerySection />
-    </main>
+   return (
+    <div className="min-h-screen bg-[#051421] h-[75%] mb-[50px]">
+      {/* {!tableName && (
+        <div className="absolute top-0 left-0 w-full h-full z-[999] bg-[#051421] bg-opacity-100">
+          <FileUpload />
+        </div>
+      )} */}
+    <NavBar />
+      <main className="container mx-auto p-6 pb-[30px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <QuerySection />
+          </div>
+          <div>
+            <ResultsGrid />
+          </div>
+        </div>
+      </main>
+    </div>
   );
 }
+
+
