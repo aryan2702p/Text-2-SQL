@@ -5,3 +5,4 @@ uploads/
 my_duckdb.db.wal
 test.js
 pnpm-lock.yaml
+Todo.md
