@@ -7,7 +7,7 @@ dotenv.config();
 import uploadRoutes from "./routes/uploadRoute.js";
 import queryRoutes from "./routes/queryRoute.js";
 import attributeRoutes from "./routes/attributeRoute.js";
-import authRoutes from "./routes/authRoute.js";
+import authRoutes from "./routes/authroute.js";
 import userRoutes from "./routes/userRoute.js";
 import cookieParser from "cookie-parser";
 import adminRoutes from "./routes/adminRoute.js";
