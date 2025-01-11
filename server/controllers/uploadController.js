@@ -34,8 +34,8 @@ export const uploadFile = async (req, res) => {
     } else {
       await normalizeAndCreateTable(filePath, tableName, fileType);
     }
-
-    await db.run(`INSERT INTO user_tables VALUES ('${tableName}','${req.user}');`);
+    console.log("req.user : ", req.user);
+    await db.run(`INSERT INTO user_tables VALUES ('${tableName}','${req.user.email}');`);
 
     const describe = await db.run(`DESCRIBE TABLE ${tableName};`);
     const row = await describe.getRows();

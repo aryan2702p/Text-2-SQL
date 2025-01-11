@@ -31,15 +31,18 @@ export function SignupForm() {
     const response = await signup(name, email, password);
     if (response.status === 201) {
       toast.success("Signup successful", { icon: "🎉" });
-      router.push("/login");
+      router.push("/upload");
     }
 
     //console.log('Signup form submitted:', formData)
   }
 
   const handleGoogleAuth = () => {
-    console.log('Google auth initiated')
-  }
+    console.log('Google auth initiated');
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    window.location.href = `${apiUrl}/auth/google`;
+}
+
 
   return (
     <div className="max-h-[100%] flex items-center justify-center p-1">

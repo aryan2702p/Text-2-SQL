@@ -2,6 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
+  withCredentials: true,
 });
 
 export const uploadFile = async (file: File) => {
@@ -89,4 +90,25 @@ export const logout = async () => {
   }
 }
 
+
+export const getAllTables = async () => {
+  try{
+    const response = await api.get("admin/tables");
+    return response;
+  }catch(error){
+    console.error(error);
+    throw error;
+  }
+}
+
+
+export const getAllUsers = async () => {
+  try{
+    const response = await api.get("admin/users");
+    return response;
+  }catch(error){
+    console.error(error);
+    throw error;
+  }
+}
 

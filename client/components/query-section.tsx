@@ -172,26 +172,6 @@ export function QuerySection() {
 
   
 
-  const handleSelectTable =  async(tableName: string) => {
-
-    try{
-
-      const response = await getTableData(tableName);
-
-      if(response && response.data){
-        const data = response.data;
-        resetAllStates();
-        setTableName(data.tableName || "");
-        setTableData(data.descObj || { cols: [], row: [] });
-        setSampleQueries(data.naturalLanguageQueries || []);
-      }
-
-    }catch(error){
-      console.error(error);
-      throw error;
-    }
-
-  }
 
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
@@ -270,30 +250,17 @@ export function QuerySection() {
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
 
-          <div className="flex justify-between">
+          
             
-            <select
-            
-              onChange={(e) => setQuery(e.target.value)}
-              className="ml-2 bg-[#051421] text-[#8BA7B4] rounded-lg font-mono text-sm w-[30%]"
-            >
-              <option value="" disabled selected>
-                Select a query
-              </option>
-              {sampleQueries.map((sampleQuery, index) => (
-                <option key={index} value={sampleQuery}
-                onClick={() => handleSelectTable(sampleQuery)}>
-                  {sampleQuery}
-                </option>
-              ))}
-            </select>
+           <div className="flex justify-end">
             <Button
               onClick={handleSubmit}
-              className="bg-[#8BA7B4] hover:bg-[#7B97A4] text-black font-mono"
+              className="bg-[#8BA7B4] hover:bg-[#7B97A4] text-black font-mono "
             >
               {loading ? <SpinnerCircular /> : "Submit"}
             </Button>
-          </div>
+            </div>
+          
         </div>
       </Card>
 

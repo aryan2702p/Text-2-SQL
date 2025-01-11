@@ -25,7 +25,13 @@ export function LoginForm() {
 
         try {
             const response = await login(email, password)
+            console.log(response.status);
+
             if (response.status === 200) {
+                console.log('Login successful');
+                console.log("router", router);
+               // toast.success("Login successful", { icon: "🎉" });
+
 
                 router.push("/upload");
             }

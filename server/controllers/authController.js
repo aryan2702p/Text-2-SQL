@@ -1,7 +1,13 @@
 import bcrypt from "bcrypt";
 import generateAccessToken from "../utils/generateToken.js"
 import axios from "axios";
+import db from "../db_config.js";
+import Sqlstring from 'sqlstring';
+import dotenv from 'dotenv';
+dotenv.config();
 
+const isProduction = process.env.NODE_ENV === 'production';
+const clientRedirectUrl = process.env.CLIENT_REDIRECT_URL || 'http://localhost:3001';
 
 
 export const signup = async (req, res) => {
@@ -10,6 +16,8 @@ export const signup = async (req, res) => {
     return res.status(400).json({ error: "Missing Fields" });
   }
   try {
+
+    //console.log("signup data", req.body);
     // if (
     //   !isValidEmail(email) ||
     //   !isValidPassword(password) ||
@@ -20,26 +28,32 @@ export const signup = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 5);
 
+    const escapedEmail = Sqlstring.escape(email);
+    const escapedPassword = Sqlstring.escape(hashedPassword);
+    const escapedName = Sqlstring.escape(name);
+
     await db.run(
-      `INSERT INTO Users (email, password,name) VALUES (${email}, ${hashedPassword},${name});`
+      `INSERT INTO Users (email, password,name) VALUES (${escapedEmail}, ${escapedPassword},${escapedName});`
     );
 
-    const accessToken = generateAccessToken(email);
-    const refreshToken = generateRefreshToken(email);
+    const accessToken = generateAccessToken(escapedEmail);
+   // const refreshToken = generateRefreshToken(email);
 
     res.cookie("token", accessToken, {
       httpOnly: true,
+      secure: isProduction,
       maxAge: 3600000,
+      sameSite: isProduction ? 'None' : 'Strict',
     });
 
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      maxAge: 604800000,
-    });
+    // res.cookie("refreshToken", refreshToken, {
+    //   httpOnly: true,
+    //   maxAge: 604800000,
+    // });
 
     // Implement the signup logic here
 
-    res.status(200).json({ message: "Signup successful" });
+    res.status(201).json({ message: "Signup successful" });
   } catch (error) {
     console.log("error in signup", error);
     res.status(500).json({ error: error.message });
@@ -52,34 +66,42 @@ export const login = async (req, res) => {
     return res.status(400).json({ error: "Email and password are required" });
   }
   try {
+
+    //console.log("login data", req.body);
+
+    const escapedEmail = Sqlstring.escape(email);
     const result = await db.run(
-      `SELECT password FROM Users WHERE email = ${email}`
+      `SELECT password FROM Users WHERE email = ${escapedEmail}`
     );
     const rows = await result.getRows();
     if (rows.length === 0) {
       return res.status(400).json({ error: "Invalid email" });
     }
+    
+    //console.log("login rows", rows);
+    const escapedPassword = Sqlstring.escape(password);
+    
     //   todo test here
-    const isSame = bcrypt.compare(password, rows[0]);
+    const isSame = bcrypt.compare(escapedPassword, rows[0][0]);
 
     if (!isSame) {
       return res.status(400).json({ error: "Invalid password" });
     }
 
-    const accessToken = generateAccessToken(email);
-    const refreshToken = generateRefreshToken(email);
+    const accessToken = generateAccessToken(escapedEmail);
+   // const refreshToken = generateRefreshToken(email);
+   //console.log("token",accessToken);
 
     res.cookie("token", accessToken, {
       httpOnly: true,
+      secure: isProduction,
       maxAge: 3600000,
+      sameSite: isProduction ? 'None' : 'Strict',
     });
 
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      maxAge: 604800000,
-    });
 
-    // Implement the login logic here
+
+    console.log("login successful");
 
     res.status(200).json({ message: "Login successful" });
   } catch (error) {
@@ -164,7 +186,7 @@ export const googleCallBack = async (req, res) => {
       maxAge: 3600000,
     });
     
-    res.redirect(`http://localhost:3001/upload`);
+    res.redirect(clientRedirectUrl);
   } catch (error) {
     console.error(error);
     res.status(400).json({ success: false, message: 'OAuth authentication failed' });
@@ -175,8 +197,11 @@ export const googleCallBack = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
+    //console.log("logout");
     res.clearCookie("token", {
       httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? 'None' : 'Strict',
     });
    
 

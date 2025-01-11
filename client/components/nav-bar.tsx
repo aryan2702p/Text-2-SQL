@@ -1,35 +1,33 @@
 "use client";
 import { useQueryContext } from "@/context/QueryContext";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { logout } from "@/app/api/api";
 import toast from "react-hot-toast";
 
-interface NavBarProps {
-}
+interface NavBarProps {}
 
 export const NavBar: React.FC<NavBarProps> = () => {
   const router = useRouter();
+  const pathname = usePathname(); // Get the current path
   const { setIsFileUploaded, setTableName } = useQueryContext();
 
   const handleReset = () => {
-  
     setIsFileUploaded(false);
     setTableName("");
 
     router.push("/upload");
   };
 
-  const handleLogout = async() => {
-
+  const handleLogout = async () => {
     const response = await logout();
 
-    if(response.status === 200){
+    if (response.status === 200) {
+      toast.success("Logout successful", { icon: "🎉" });
       router.push("/login");
-    }
-    else{
+    } else {
       toast.error("Logout failed", { icon: "❌" });
     }
-  }
+  };
 
   return (
     <nav className="flex items-center justify-between p-6 pb-0">
@@ -41,20 +39,26 @@ export const NavBar: React.FC<NavBarProps> = () => {
       </button>
 
       <div className="flex items-center gap-6">
-      <button
-        className="ml-auto text-[#8BA7B4] font-mono hover:text-white"
-        onClick={handleReset}
-      >
-        Upload
-      </button>
-      <button
-        className="ml-auto text-[#8BA7B4] font-mono hover:text-white"
-        onClick={handleLogout}
-      >
-        Logout
-      </button>
+        {/* Display Upload button only if not on the /upload page */}
+        {pathname !== "/upload" && (
+          <button
+            className="ml-auto text-[#8BA7B4] font-mono hover:text-white"
+            onClick={handleReset}
+          >
+            Upload
+          </button>
+        )}
+
+        {/* Display Logout button only if not on the /login or /signup pages */}
+        {pathname !== "/login" && pathname !== "/signup" && (
+          <button
+            className="ml-auto text-[#8BA7B4] font-mono hover:text-white"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        )}
       </div>
-     
     </nav>
   );
-}
+};
