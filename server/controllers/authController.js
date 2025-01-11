@@ -127,7 +127,7 @@ export const login = async (req, res) => {
 // };
 
 export const googleLogin = async (req, res) => {
-    const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientId = process.env.GOOGLE_CLIENT_ID;
   const redirectUri = process.env.GOOGLE_REDIRECT_URI;
   
   // Redirect the user to Google's OAuth consent screen

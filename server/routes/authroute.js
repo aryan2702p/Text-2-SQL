@@ -11,4 +11,3 @@ router.get('/google/callback', googleCallBack);
 router.get('/logout', logout);
 
 export default router;
-
