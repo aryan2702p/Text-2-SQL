@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const isProduction = process.env.NODE_ENV === 'production';
-const clientRedirectUrl = process.env.CLIENT_REDIRECT_URL || 'http://localhost:3001';
+const clientRedirectUrl = process.env.CLIENT_REDIRECT_URI;
 
 
 export const signup = async (req, res) => {
@@ -185,7 +185,7 @@ export const googleCallBack = async (req, res) => {
       httpOnly: true,
       maxAge: 3600000,
     });
-    
+    console.log("redirect url", clientRedirectUrl);
     res.redirect(clientRedirectUrl);
   } catch (error) {
     console.error(error);
