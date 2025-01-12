@@ -183,6 +183,8 @@ export const googleCallBack = async (req, res) => {
     const accessToken=generateAccessToken(email);
     res.cookie("token", accessToken, {
       httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? 'None' : 'Strict',
       maxAge: 3600000,
     });
     console.log("redirect url", clientRedirectUrl);
