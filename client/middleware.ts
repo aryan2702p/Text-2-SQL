@@ -7,6 +7,7 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   if (!token) {
+    console.log('No token found, redirecting to login page');
     const loginUrl = new URL('/login', req.url);
     return NextResponse.redirect(loginUrl);
   }
