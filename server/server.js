@@ -14,7 +14,7 @@ import adminRoutes from "./routes/adminRoute.js";
 
 const app = express();
 app.use(cors({
-  origin: "http://localhost:3001",
+  origin: ["http://localhost:3001","https://text-2-sql-blush.vercel.app"],
   credentials: true,
 }));
 app.use(cookieParser());
