@@ -12,33 +12,77 @@ const clientRedirectUrl = process.env.CLIENT_REDIRECT_URI;
 
 export const signup = async (req, res) => {
   const { email, password, name } = req.body;
+
+
   if (!email || !password || !name) {
-    return res.status(400).json({ error: "Missing Fields" });
+    return res.status(400).json({ 
+      error: "Email, password, and name are required" 
+    });
   }
+
+
+  const nameRegex = /^[a-zA-Z\s]{2,50}$/;
+  if (!nameRegex.test(name.trim())) {
+    return res.status(400).json({ 
+      error: "Name must be 2-50 characters long and contain only letters and spaces" 
+    });
+  }
+
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ 
+      error: "Invalid email format" 
+    });
+  }
+
+
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  if (!passwordRegex.test(password)) {
+    return res.status(400).json({ 
+      error: "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character" 
+    });
+  }
+
   try {
+    
+    const sanitizedEmail = email.toLowerCase().trim();
+    const checkEmailQuery = `SELECT email FROM Users WHERE email = '${sanitizedEmail.replace(/'/g, "''")}'`;
+    console.log("checkEmailQuery",checkEmailQuery);
+    
+    const emailCheck = await db.run(checkEmailQuery);
+    const existingUser = await emailCheck.getRows();
 
-    //console.log("signup data", req.body);
-    // if (
-    //   !isValidEmail(email) ||
-    //   !isValidPassword(password) ||
-    //   !isValidName(name)
-    // ) {
-    //   res.status(400).json({ error: "Invalid fields" });
-    // }
+    if (existingUser.length > 0) {
+      return res.status(400).json({ 
+        error: "Email already registered" 
+      });
+    }
 
-    const hashedPassword = await bcrypt.hash(password, 5);
+    // Hash password
+    const saltRounds = 12;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    const escapedEmail = Sqlstring.escape(email);
-    const escapedPassword = Sqlstring.escape(hashedPassword);
-    const escapedName = Sqlstring.escape(name);
+    // Sanitize name
+    const sanitizedName = name.trim().replace(/'/g, "''");
 
-    await db.run(
-      `INSERT INTO Users (email, password,name) VALUES (${escapedEmail}, ${escapedPassword},${escapedName});`
-    );
+    // Insert new user
+    const insertQuery = `
+      INSERT INTO Users (name, email, password) 
+      VALUES (
+        '${sanitizedName}',
+        '${sanitizedEmail}',
+        '${hashedPassword}'
+        
+      )
+    `;
 
-    const accessToken = generateAccessToken(escapedEmail);
-   // const refreshToken = generateRefreshToken(email);
+    await db.run(insertQuery);
 
+    // Generate access token
+    const accessToken = generateAccessToken(sanitizedEmail);
+
+    // Set cookie
     res.cookie("token", accessToken, {
       httpOnly: true,
       secure: isProduction,
@@ -46,20 +90,18 @@ export const signup = async (req, res) => {
       sameSite: isProduction ? 'None' : 'Strict',
     });
 
-    // res.cookie("refreshToken", refreshToken, {
-    //   httpOnly: true,
-    //   maxAge: 604800000,
-    // });
+    console.log("Signup successful");
+    res.status(201).json({ 
+      message: "Signup successful" 
+    });
 
-    // Implement the signup logic here
-
-    res.status(201).json({ message: "Signup successful" });
   } catch (error) {
-    console.log("error in signup", error);
-    res.status(500).json({ error: error.message });
+    console.error("Error in signup:", error);
+    res.status(500).json({ 
+      error: "Internal server error" 
+    });
   }
 };
-
 export const login = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -67,14 +109,15 @@ export const login = async (req, res) => {
   }
   try {
 
-    //console.log("login data", req.body);
-
+    
     const escapedEmail = Sqlstring.escape(email);
     const result = await db.run(
       `SELECT password FROM Users WHERE email = ${escapedEmail}`
     );
     const rows = await result.getRows();
     if (rows.length === 0) {
+      console.log("no user found");
+
       return res.status(400).json({ error: "Invalid email" });
     }
     
@@ -85,6 +128,7 @@ export const login = async (req, res) => {
     const isSame = bcrypt.compare(escapedPassword, rows[0][0]);
 
     if (!isSame) {
+      console.log("invalid password");
       return res.status(400).json({ error: "Invalid password" });
     }
 

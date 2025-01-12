@@ -218,11 +218,11 @@ import { SpinnerCircular } from "spinners-react";
 import { cn } from "@/lib/utils";
 import { uploadFile } from "@/app/api/api";
 import { Select,SelectContent,SelectValue,SelectTrigger,SelectItem } from "./ui/select";
-import LShape from "./svg/Corner";
+
 import { useQueryStore } from "@/store/QueryStore"; // Import the Zustand store
 import toast from "react-hot-toast";
 import { useEffect } from "react";
-import { getUserTables } from "@/app/api/api";
+import { getUserTables,getTableData } from "@/app/api/api";
 
 export function FileUpload() {
   const router = useRouter();
@@ -292,14 +292,41 @@ export function FileUpload() {
     }
   };
 
-  const handleFetchTables = () => {
+  const handleFetchTables = async() => {
     if (!selectedTable) {
       toast.error("Please select a table first");
       return;
     }
+   
+    console.log("Selected table:", selectedTable);
 
     // Set the table name in the Zustand store
     setTableName(selectedTable);
+
+    try {
+      const response = await getTableData(selectedTable);
+
+      if (response && response.data) {
+        const { data } = response;
+
+        // Update the Zustand store
+        resetAllStates();
+        setAttributes(data.attributes || []);
+        setTableName(data.tableName || "");
+        setTableData(data.descObj || { cols: [], row: [] });
+        setSampleQueries(data.naturalLanguageQueries || []);
+
+        // Set file uploaded to true to trigger navigation to query section
+        setIsFileUploaded(true);
+        toast.success("Table selected successfully!");
+        router.push("/query"); // Navigate to the query page
+      }
+    } catch (error) {
+      console.error("File upload failed", error);
+      toast.error("File upload failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
 
     // Navigate to the query page
     router.push("/query");

@@ -3,7 +3,8 @@ export const getTables = async (req, res) => {
   
     try{
   
-      const email = req.user;
+      const email = req.user.email;
+      console.log("fetch user tables by email",req.user);
   
       const tables = await db.run(`SELECT table_names FROM user_tables WHERE user_email = '${email}';`);
       const rows = await tables.getRows();

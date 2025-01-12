@@ -11,10 +11,10 @@ import authRoutes from "./routes/authroute.js";
 import userRoutes from "./routes/userRoute.js";
 import cookieParser from "cookie-parser";
 import adminRoutes from "./routes/adminRoute.js";
-
+const origin  = process.env.ALLOWED_ORIGIN || "http://localhost:3001";
 const app = express();
 app.use(cors({
-  origin: ["http://localhost:3001","https://text-2-sql-blush.vercel.app","https://text-2-mlxv42cqh-aryan2702ps-projects.vercel.app/"],
+  origin: origin,
   credentials: true,
 }));
 app.use(cookieParser());

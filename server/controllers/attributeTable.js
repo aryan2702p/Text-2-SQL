@@ -19,8 +19,9 @@ import {getAttributes} from '../helpers/getAttributes.js';
 
 export const getTableData = async (req,res) => {
     try {
-        const tableName = req.body;
-
+        const {tableName} = req.body;
+        
+      console.log("fetching table data tableName",tableName);
         const describe = await db.run(`DESCRIBE TABLE ${tableName};`);
         const row = await describe.getRows();
         const cols = await describe.columnNames();
@@ -32,7 +33,7 @@ export const getTableData = async (req,res) => {
         };
 
         const naturalLanguageQueries = await generateNaturalLanguageQueries(tableName, attributes);
-
+        console
         res.status(200).json({
             descObj,
             naturalLanguageQueries,
