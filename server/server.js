@@ -11,7 +11,8 @@ import authRoutes from "./routes/authroute.js";
 import userRoutes from "./routes/userRoute.js";
 import cookieParser from "cookie-parser";
 import adminRoutes from "./routes/adminRoute.js";
-const origin  = process.env.ALLOWED_ORIGIN || "http://localhost:3001";
+import authMiddleware from "./middleware/authmiddleware.js";
+const origin  = process.env.ALLOWED_ORIGIN || "https://text-2-sql-blush.vercel.app";
 const app = express();
 app.use(cors({
   origin: origin,
@@ -19,11 +20,11 @@ app.use(cors({
 }));
 app.use(cookieParser());
 app.use(express.json());
-app.use("/upload", uploadRoutes);
-app.use("/query", queryRoutes);
-app.use("/attributes", attributeRoutes);
+app.use("/upload", authMiddleware,uploadRoutes);
+app.use("/query", authMiddleware,queryRoutes);
+app.use("/attributes", authMiddleware,attributeRoutes);
 app.use("/auth",authRoutes)
-app.use("/user",userRoutes)
+app.use("/user",authMiddleware,userRoutes)
 app.use("/admin",adminRoutes)
 
 app.get("/", (req, res) => {

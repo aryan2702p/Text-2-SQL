@@ -110,13 +110,13 @@ export function UserGrid() {
                 ))}
                 <TableCell>
                   <div className="flex space-x-2">
-                    <Button variant="ghost" size="sm" onClick={() => handleAction('View Profile', row[0])}>
+                    <Button className="bg-[#0A1929]" variant="default" size="sm" onClick={() => handleAction('View Profile', row[0])}>
                       <Eye className="h-4 w-4 text-white hover:text-black " />
                     </Button>
-                    <Button variant="ghost" size="sm" onClick={() => handleAction('Change Role', row[0])}>
+                    <Button variant="default" size="sm" onClick={() => handleAction('Change Role', row[0])}>
                       <UserCog className="h-4 w-4 text-white hover:text-black" />
                     </Button>
-                    <Button variant="ghost" size="sm" onClick={() => handleAction('Deactivate', row[0])}>
+                    <Button variant="destructive" size="sm" onClick={() => handleAction('Deactivate', row[0])}>
                       <UserMinus className="h-4 w-4 text-white hover:text-black" />
                     </Button>
                   </div>

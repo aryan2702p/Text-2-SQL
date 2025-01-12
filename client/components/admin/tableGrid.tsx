@@ -88,9 +88,9 @@ export function TableGrid() {
 
         <Card className="bg-[#0A1929] border-none p-4">
         <Table>
-        <ScrollArea className="h-[55vh] w-full rounded-md mt-2 pb-2">
+        <ScrollArea className="h-[50vh] w-full rounded-md mt-2 pb-2">
           
-          <TableHeader>
+        <TableHeader className='sticky top-0 bg-[#051421]'>
             <TableRow>
               {Array.isArray(tablesData.colsNames) && tablesData.colsNames.map((colName, index) => (
                 <TableHead key={index} className="text-[#8BA7B4]">{colName}</TableHead>
@@ -106,13 +106,13 @@ export function TableGrid() {
                 ))}
                 <TableCell>
                   <div className="flex space-x-2">
-                    <Button variant="ghost" size="sm" onClick={() => handleAction('View', row[0])}>
+                    <Button className="bg-[#0A1929]" variant="default" size="sm" onClick={() => handleAction('View', row[0])}>
                       <Eye className="h-4 w-4 text-white" />
                     </Button>
-                    <Button variant="ghost" size="sm" onClick={() => handleAction('Edit', row[0])}>
+                    <Button variant="default" size="sm" onClick={() => handleAction('Edit', row[0])}>
                       <Edit className="h-4 w-4 text-white" />
                     </Button>
-                    <Button variant="ghost" size="sm" onClick={() => handleAction('Delete', row[0])}>
+                    <Button variant="destructive" size="sm" onClick={() => handleAction('Delete', row[0])}>
                       <Trash className="h-4 w-4 text-white" />
                     </Button>
                   </div>
