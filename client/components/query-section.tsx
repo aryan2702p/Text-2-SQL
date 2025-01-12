@@ -235,6 +235,8 @@ export function QuerySection() {
   useEffect(() => {
    // console.log("tablename effect issue")
     if (!tableName) {
+      setSqlQuery(""); // Reset sqlQuery
+      setQueryResults({ rows: [], colsNames: [] }); // Reset queryResults
       router.push("/upload"); // Redirect to upload page
     }
   }, [tableName]); // Depend only on tableName, avoid excessive triggers 

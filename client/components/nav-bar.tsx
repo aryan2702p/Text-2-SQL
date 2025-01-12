@@ -3,17 +3,17 @@ import { useQueryContext } from "@/context/QueryContext";
 import { useRouter, usePathname } from "next/navigation";
 import { logout } from "@/app/api/api";
 import toast from "react-hot-toast";
+import { useQueryStore } from "@/store/QueryStore";
 
 interface NavBarProps {}
 
 export const NavBar: React.FC<NavBarProps> = () => {
   const router = useRouter();
   const pathname = usePathname(); // Get the current path
-  const { setIsFileUploaded, setTableName } = useQueryContext();
+  const { resetAllStates } = useQueryStore();
 
   const handleReset = () => {
-    setIsFileUploaded(false);
-    setTableName("");
+   resetAllStates();
 
     router.push("/upload");
   };
